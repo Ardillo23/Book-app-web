@@ -1,0 +1,26 @@
+<div class="container">
+    <h2>Buscar libros</h2>
+
+    <div class="search-box">
+        <input [(ngModel)]="query" placeholder="Harry Potter..." />
+        <button (click)="search()">Buscar</button>
+    </div>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+    <p class="loading" *ngIf="loading">Buscando...</p>
+
+    <ul class="results">
+        <li class="result-item" *ngFor="let book of results">
+            <h3>{{ book.title }}</h3>
+            <p class="author">
+                Autor: <span>{{ book.authors}}</span>
+            </p>
+            <p>
+                Año de publicación: <span>{{book.firstPublishYear}}</span>
+            </p>
+            <button (click)="addToFavorites(book)" [disabled]="book._isFavorite">
+                Agregar a favoritos
+            </button>
+        </li>
+    </ul>
+</div>
