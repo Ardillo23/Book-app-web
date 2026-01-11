@@ -1,0 +1,52 @@
+html {
+  overflow-y: scroll;
+}
+
+body {
+  background: #f9f3e7;
+  scrollbar-gutter: stable;
+  margin-right: calc(100vw - 100%);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e1d6c5;
+  background: #f9f3e7;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: #3b2a1a;
+}
+
+.navbar-back {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbb59d;
+  background: #f4e9d9;
+  color: #3b2a1a;
+  cursor: pointer;
+}
+
+.navbar-back:hover {
+  background: #e8dcc9;
+}
+
+.navbar-link {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #e0b347;
+  color: #2f1e0d;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  background: #d29b2d;
+}
+
+.app-content {
+  padding: 0 20px 30px;
+}

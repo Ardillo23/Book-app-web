@@ -8,19 +8,63 @@
 
     <p class="error" *ngIf="error">{{ error }}</p>
     <p class="loading" *ngIf="loading">Buscando...</p>
-
+    <!-- Modal -->
     <ul class="results">
-        <li class="result-item" *ngFor="let book of results">
-            <h3>{{ book.title }}</h3>
-            <p class="author">
-                Autor: <span>{{ book.authors}}</span>
-            </p>
-            <p>
-                Año de publicación: <span>{{book.firstPublishYear}}</span>
-            </p>
-            <button (click)="addToFavorites(book)" [disabled]="book._isFavorite">
-                Agregar a favoritos
-            </button>
+        <li class="result-item" *ngFor="let book of results" (click)="openModal(book)">
+            <div class="result-text">
+                <h3 class="result-line">{{ book.title }}</h3>
+                <p class="author result-line">
+                    Autor: <span>{{ book.authors}}</span>
+                </p>
+                <p class="result-line">
+                    Año de publicación: <span>{{book.firstPublishYear}}</span>
+                </p>
+            </div>
+            <img
+                class="result-cover"
+                [src]="getCoverUrl(book.coverUrl)"
+                alt="Book cover"
+                (error)="book.coverUrl = null"
+            >
         </li>
+    <!-- Pagina Principal -->
     </ul>
+    <div class="modal-backdrop" *ngIf="selectedBook" (click)="closeModal()">
+        <div class="modal" (click)="$event.stopPropagation()">
+            <button class="modal-close" (click)="closeModal()">x</button>
+            <h3 class="modal-title">{{ selectedBook.title }}</h3>
+            <div class="modal-body">
+                <div class="modal-left">
+                    <img
+                        class="result-cover"
+                        [src]="getCoverUrl(selectedBook.coverUrl)"
+                        alt="Book cover"
+                        (error)="selectedBook.coverUrl = null"
+                    >
+                    <button
+                        class="favorite-button"
+                        (click)="toggleFavorite(selectedBook)"
+                        [class.is-favorite]="selectedBook._isFavorite"
+                    >
+                        <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2.75l2.99 6.06 6.69.97-4.84 4.72 1.14 6.64L12 17.98l-5.98 3.16 1.14-6.64-4.84-4.72 6.69-.97L12 2.75z"></path>
+                        </svg>
+                        {{ selectedBook._isFavorite ? "Quitar de favoritos" : "Agregar a favoritos" }}
+                    </button>
+                </div>
+                <div class="modal-right">
+                    <p>
+                        Autor: <span>{{ selectedBook.authors }}</span>
+                    </p>
+                    <p>
+                        Año de publicación: <span>{{ selectedBook.firstPublishYear }}</span>
+                    </p>
+                    <div class="modal-description" *ngIf="selectedBook.description">
+                        <span class="modal-label">Descripcion:</span>
+                        <span>{{ selectedBook.description }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

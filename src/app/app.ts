@@ -1,12 +1,31 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Location } from '@angular/common';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('vista-ti-books-frontend');
+  isSearchRoute = true;
+
+  constructor(
+    private location: Location,
+    private router: Router
+  ) {
+    this.isSearchRoute = this.router.url.startsWith('/search') || this.router.url === '/';
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.isSearchRoute = this.router.url.startsWith('/search') || this.router.url === '/';
+      });
+  }
+
+  goBack() {
+    this.location.back();
+  }
 }

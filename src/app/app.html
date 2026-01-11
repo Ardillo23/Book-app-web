@@ -1,1 +1,8 @@
-<router-outlet />
+<nav class="navbar">
+    <button class="navbar-back" (click)="goBack()" *ngIf="!isSearchRoute">Volver</button>
+    <div class="navbar-brand">Vista TI Books</div>
+    <a class="navbar-link" routerLink="/favorites">★ Mis favoritos</a>
+</nav>
+<main class="app-content">
+    <router-outlet />
+</main>
