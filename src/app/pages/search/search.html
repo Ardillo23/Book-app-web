@@ -1,10 +1,10 @@
 <div class="container">
     <h2>Buscar libros</h2>
 
-    <div class="search-box">
-        <input [(ngModel)]="query" placeholder="Harry Potter..." />
-        <button (click)="search()">Buscar</button>
-    </div>
+    <form class="search-box" (ngSubmit)="search()">
+        <input [(ngModel)]="query" name="query" placeholder="Harry Potter..." />
+        <button type="submit">Buscar</button>
+    </form>
 
     <p class="error" *ngIf="error">{{ error }}</p>
     <p class="loading" *ngIf="loading">Buscando...</p>
@@ -61,7 +61,7 @@
                     </p>
                     <div class="modal-description" *ngIf="selectedBook.description">
                         <span class="modal-label">Descripcion:</span>
-                        <span>{{ selectedBook.description }}</span>
+                        <span [innerHTML]="formatDescription(selectedBook.description)"></span>
                     </div>
                 </div>
             </div>

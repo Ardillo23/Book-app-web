@@ -31,6 +31,55 @@ export class Favorites implements OnInit {
     return coverUrl;
   }
 
+  formatDescription(description: string | null | undefined) {
+    if (!description) return '';
+
+    const refs = new Map<string, string>();
+    const lines = description.split(/\r?\n/);
+    const kept: string[] = [];
+    const refRegex = /^\s*\[(\d+)\]:\s*(\S+)\s*$/;
+
+    for (const line of lines) {
+      const match = line.match(refRegex);
+      if (match) {
+        refs.set(match[1], match[2]);
+      } else {
+        kept.push(line);
+      }
+    }
+
+    let text = kept.join(' ').replace(/\s+/g, ' ').trim();
+    text = text.replace(/\s*-{6,}\s*/g, '<br>');
+    text = this.escapeHtml(text);
+
+    text = text.replace(/\[([^\]]+)\]\[(\d+)\]/g, (_match, label, id) => {
+      const url = refs.get(id);
+      if (!url || !/^https?:\/\//i.test(url)) {
+        return label;
+      }
+      return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    });
+
+    text = text.replace(/\[(\d+)\]/g, (match, id) => {
+      const url = refs.get(id);
+      if (!url || !/^https?:\/\//i.test(url)) {
+        return match;
+      }
+      return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer">[${id}]</a>`;
+    });
+
+    return text;
+  }
+
+  private escapeHtml(value: string) {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   openModal(book: any) {
     this.selectedBook = book;
   }

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, NgIf],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
